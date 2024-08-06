@@ -1,0 +1,14 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/generate', methods=['POST'])
+def generate():
+    data = request.get_json()
+    seed_text = data['seed_text']
+    next_words = data.get('next_words', 50)
+    generated_text = generate_text(seed_text, next_words, max_sequence_len)
+    return jsonify({'generated_text': generated_text})
+
+if __name__ == '__main__':
+    app.run()
