@@ -1,0 +1,9 @@
+def generate_text(seed_text, next_words, max_sequence_len):
+    for _ in range(next_words):
+        token_list = tokenizer.texts_to_sequences([seed_text])[0]
+        token_list = tf.keras.preprocessing.sequence.pad_sequences([token_list], maxlen=max_sequence_len-1, padding='pre')
+        predicted = model.predict(token_list, verbose=0)
+        predicted_word_index = np.argmax(predicted, axis=1)
+        predicted_word = tokenizer.index_word[predicted_word_index[0]]
+        seed_text += " " + predicted_word
+    return seed_text
